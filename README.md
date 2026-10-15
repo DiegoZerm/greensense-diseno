@@ -39,6 +39,18 @@ El análisis completo y el diagrama están en [`docs/analisis_original.md`](docs
 
 Todas cumplen el mismo contrato de alcance y pruebas, descrito en [`versiones/README.md`](versiones/README.md).
 
+## Flujo de trabajo
+
+El repositorio usa un flujo GitFlow simplificado:
+
+| Rama | Uso |
+|---|---|
+| `main` | Versión entregada. Protegida: solo recibe cambios desde `develop` mediante pull request aprobado |
+| `develop` | Integración de las versiones y de la documentación |
+| `feature/<nombre>` | Trabajo de cada versión o cambio de documentación; se integra a `develop` mediante pull request |
+
+Los mensajes de commit usan prefijos: `feat:` para funcionalidad, `test:` para pruebas, `docs:` para documentación, `refactor:` para reorganización de código y `fix:` para correcciones.
+
 ## Ejecución
 
 Requiere Python 3.10 o posterior.
