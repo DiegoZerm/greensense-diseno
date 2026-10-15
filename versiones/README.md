@@ -4,10 +4,10 @@ Cada integrante desarrolla una versión distinta del servidor a partir del dise�
 
 | Carpeta | Rama | Enfoque | Organización de las clases |
 |---|---|---|---|
-| `capas/` | `version/capas` | Capas | Por tipo técnico: servicios, repositorios y notificadores |
-| `puertos/` | `version/puertos` | Puertos y adaptadores | Un núcleo de reglas aislado; la infraestructura se conecta mediante interfaces |
-| `eventos/` | `version/eventos` | Eventos y estrategias | Componentes que reaccionan a eventos; reglas y canales como estrategias intercambiables |
-| `modulos/` | `version/modulos` | Módulos por funcionalidad | Por funcionalidad del negocio: lecturas, alertas, nodos, usuarios y reportes |
+| `capas/` | `feature/version-capas` | Capas | Por tipo técnico: servicios, repositorios y notificadores |
+| `puertos/` | `feature/version-puertos` | Puertos y adaptadores | Un núcleo de reglas aislado; la infraestructura se conecta mediante interfaces |
+| `eventos/` | `feature/version-eventos` | Eventos y estrategias | Componentes que reaccionan a eventos; reglas y canales como estrategias intercambiables |
+| `modulos/` | `feature/version-modulos` | Módulos por funcionalidad | Por funcionalidad del negocio: lecturas, alertas, nodos, usuarios y reportes |
 
 ## Contrato común
 
@@ -59,7 +59,10 @@ versiones/<carpeta>/
 
 ### Forma de trabajo
 
-1. Crear la rama de la versión a partir de `main`.
-2. Hacer commits pequeños y descriptivos conforme se avanza.
-3. Ejecutar `pytest` antes de cada push.
-4. Abrir un pull request hacia `main` al terminar.
+El repositorio sigue un flujo GitFlow simplificado. Ver la sección "Flujo de trabajo" del [README principal](../README.md).
+
+1. Crear la rama de la versión a partir de `develop`.
+2. Trabajar solo dentro de la carpeta de la versión.
+3. Hacer commits pequeños con prefijo: `feat:`, `test:`, `docs:`, `refactor:` o `fix:`.
+4. Ejecutar `pytest` antes de cada push.
+5. Abrir un pull request hacia `develop` al terminar.
