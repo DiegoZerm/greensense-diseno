@@ -1,44 +1,24 @@
-"""Fachada del módulo de lecturas: lo único que otros módulos usan."""
-
+"""Fachada del módulo de lecturas."""
 import json
-
 from .modelo import Lectura
 from .validador import ValidadorLecturas
 
-
 class ModuloLecturas:
+    def __init__(self, repositorio, alertas, nodos, validador=None):
+        self._repositorio = repositorio
+        self._alertas = alertas
+        self._nodos = nodos
+        self._validador = validador or ValidadorLecturas()
 
-cd ~/Desktop/greensense-diseno
-mkdir -p versiones/modulos/alertas
-cat > versiones/modulos/alertas/modelo.py << 'FIN_ARCHIVO'
-"""Modelo del módulo de alertas."""
+    def registrar(self, mensaje):
+        datos = json.loads(mensaje)
+        if not self._validador.es_valida(datos):
+            return False
+        lectura = Lectura.desde_dict(datos)
+        self._repositorio.guardar(lectura)
+        self._nodos.registrar_actividad(lectura.nodo, lectura.fecha)
+        self._alertas.evaluar(lectura)
+        return True
 
-from dataclasses import dataclass
-from datetime import datetime
-
-ADVERTENCIA = "advertencia"
-CRITICA = "critica"
-
-
-@dataclass(frozen=True)
-class Umbral:
-minimo: float
-maximo: float
-margen: float
-
-
-@dataclass(frozen=True)
-class Alerta:
-nodo: str
-fecha: datetime
-variable: str
-valor: float
-severidad: str
-descripcion: str = ""
-
-
-UMBRALES_INICIALES = {
-"temperatura": Umbral(18.0, 28.0, 2.0),
-"humedad_aire": Umbral(60.0, 80.0, 5.0),
-"humedad_sustrato": Umbral(45.0, 70.0, 5.0),
-}
+    def todas(self):
+        return self._repositorio.todas()
